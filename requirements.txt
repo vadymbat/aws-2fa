@@ -1,0 +1,3 @@
+boto3==1.14.33
+pyotp==2.4.0
+argcomplete==1.12.0
