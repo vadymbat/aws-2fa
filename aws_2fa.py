@@ -119,13 +119,13 @@ def get_param(param, cli_args, stored_configs, required=True):
                         f"config file '{CONFIG_FILE_PATH}'...")
         except (configparser.NoSectionError):
             logger.error(f"Profile '{cli_args['profile']}' is not found in " +
-                         f"'{CONFIG_FILE_PATH}' file. Generate the configuration first " +
-                         "using '--save' option.")
-            raise configparser.NoSectionError
+                         f"'{CONFIG_FILE_PATH}' file. Make sure you are " +
+                         "using '--save' option to generate the " +
+                         "configuration file first ")
         except (configparser.NoOptionError):
             logger.warning(f"Parameter '{param}' is not found in " +
-                           f"'{CONFIG_FILE_PATH}' file. Generate the configuration first " +
-                           "using '--save' option.")
+                           f"'{CONFIG_FILE_PATH}' file. You can rewrite the " +
+                           " configuration file using '--save' option.")
             # Raise exeption only if required param is missing
             if required:
                 raise ValueError
