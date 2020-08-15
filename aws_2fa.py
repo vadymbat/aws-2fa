@@ -196,7 +196,7 @@ def save_configuration(profile, params, stored_configs):
         if not profile in stored_configs.sections():
             stored_configs.add_section(profile)
         for param in params:
-            if param:
+            if params[param]:
                 stored_configs.set(profile, param, str(params[param]))
         stored_configs.write(f)
 
