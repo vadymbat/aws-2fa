@@ -108,6 +108,7 @@ def get_stored_configuration():
 def get_param(param, cli_args, stored_configs, required=True):
     "return param value from cli args if absent try to get from config file"
     param_value = None
+    param_not_found = False
     if cli_args[param] is not None:
         param_value = cli_args[param]
         logger.info(f"Using '{param}' from cli args...")
