@@ -12,6 +12,7 @@ autopep8 = "*"
 boto3 = "*"
 argcomplete = "*"
 pyotp = "*"
+pipfile = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.8"
