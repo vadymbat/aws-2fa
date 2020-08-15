@@ -15,6 +15,6 @@ RUN mkdir /etc/bash_completion.d && activate-global-python-argcomplete && \
    echo 'source /etc/profile.d/bash_completion.sh' > ~/.bashrc
 
 COPY aws_2fa.py $AWS_2FA_PATH
-RUN chmod +x $AWS_2FA_PATH
+RUN sed -i 's/\r$//g' $AWS_2FA_PATH && chmod +x $AWS_2FA_PATH
 
 ENTRYPOINT [ "/bin/bash"]

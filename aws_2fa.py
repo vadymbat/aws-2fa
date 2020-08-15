@@ -108,6 +108,7 @@ def get_stored_configuration():
 def get_param(param, cli_args, stored_configs, required=True):
     "return param value from cli args if absent try to get from config file"
     param_value = None
+    param_not_found = False
     if cli_args[param] is not None:
         param_value = cli_args[param]
         logger.info(f"Using '{param}' from cli args...")
@@ -118,17 +119,21 @@ def get_param(param, cli_args, stored_configs, required=True):
             logger.info(f"Using '{param}' from " +
                         f"config file '{CONFIG_FILE_PATH}'...")
         except (configparser.NoSectionError):
-            logger.error(f"Profile '{cli_args['profile']}' is not found in " +
-                         f"'{CONFIG_FILE_PATH}' file. Generate the configuration first " +
-                         "using '--save' option.")
-            raise configparser.NoSectionError
+            param_not_found = True
+            logger.warning(f"Profile '{cli_args['profile']}' is not found in " +
+                           f"'{CONFIG_FILE_PATH}' file. Make sure you are " +
+                           "using '--save' option to generate the " +
+                           "configuration file first ")
+
         except (configparser.NoOptionError):
+            param_not_found = True
             logger.warning(f"Parameter '{param}' is not found in " +
-                           f"'{CONFIG_FILE_PATH}' file. Generate the configuration first " +
-                           "using '--save' option.")
-            # Raise exeption only if required param is missing
-            if required:
-                raise ValueError
+                           f"'{CONFIG_FILE_PATH}' file. You can rewrite the " +
+                           " configuration file using '--save' option.")
+        # Raise exeption only if required param is missing
+        if required and param_not_found:
+            logger.critical(f"The parameter '{param}' is required!")
+            raise ValueError
 
     return param_value
 
@@ -196,7 +201,7 @@ def save_configuration(profile, params, stored_configs):
         if not profile in stored_configs.sections():
             stored_configs.add_section(profile)
         for param in params:
-            if param:
+            if params[param]:
                 stored_configs.set(profile, param, str(params[param]))
         stored_configs.write(f)
 
@@ -221,7 +226,8 @@ if __name__ == "__main__":
     mfa_code = get_mfa_code(cli_args, stored_configs)
     params_to_save['mfa_arn'] = get_param('mfa_arn',
                                           cli_args,
-                                          stored_configs)
+                                          stored_configs,
+                                          required=True)
     params_to_save['session_duration'] = get_param('session_duration',
                                                    cli_args,
                                                    stored_configs,
