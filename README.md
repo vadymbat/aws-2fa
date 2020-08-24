@@ -8,6 +8,8 @@ The *aws2fa* tool helps to generate temporary MFA authenticated credentials.
     `git clone https://github.com/vadymbat/aws-2fa.git`
 2. build an image
 
+    `cd aws-2fa`
+
     `docker build -t aws-2fa .`
 3. run a container
     
