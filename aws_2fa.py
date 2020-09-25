@@ -66,12 +66,12 @@ def get_cli_args():
                         "provided profile credentials")
     parser.add_argument('--mfa_arn', '-ma', dest='mfa_arn',
                         action='store',
-                        help='MFA token to autogenerate your MFA code)')
+                        help='Arn of your AWS Virtual MFA device')
     mfa_token_group = parser.add_mutually_exclusive_group()
     mfa_token_group.add_argument('--mfa_token', '-mt', dest='mfa_token',
                                  action='store',
-                                 help='MFA token to "+ \
-                                    "autogenerate your MFA code)')
+                                 help='MFA token to ' + \
+                                    'autogenerate your MFA code')
     mfa_token_group.add_argument('--mfa_code', '-mc', dest='mfa_code',
                                  action='store',
                                  help='MFA code from your device')
@@ -84,7 +84,7 @@ def get_cli_args():
                         f"for that profile to '{CONFIG_FILE_PATH}'")
     parser.add_argument('--quiet', dest='quiet',
                         action='store_true',
-                        help="Do not print info output.")
+                        help="Do not print info output")
 
     argcomplete.autocomplete(parser)
     args = parser.parse_args()
